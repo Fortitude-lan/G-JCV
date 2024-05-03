@@ -1,0 +1,178 @@
+
+.monitor {
+    width: 100%;
+    height: 100%;
+    background-color: #030409;
+    color: #fff;
+    position: relative;
+    .top-content {
+      position: relative;
+      display: flex;
+      // justify-content: center;
+      justify-content: space-between;
+      height: 60px;
+      background-color: -webkit-linear-gradient(top, #75bcba66, #ffffff08);
+      .dv-decoration-5 {
+        width: 47%;
+        height: 60px;
+        padding-top: 15px;
+      }
+      .dv-decoration-8 {
+        width: 20%;
+        height: 60px;
+      }
+      .title {
+        // font-size: 2rem;
+        // color: #00e7ff;
+        // font-weight: 600;
+        position: absolute;
+        left: 50%;
+        top: 10px;
+        transform: translateX(-50%);
+        font-size: 2rem;
+        font-weight: bold;
+        background-image: -webkit-linear-gradient(
+          top,
+          #ffffff,
+          #75bcba,
+          #309882,
+          #182a2d
+        );
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+    }
+  
+    .left-conetnt {
+      position: absolute;
+      height: calc(100vh - 180px);
+      width: 25%;
+      margin: 20px;
+      box-sizing: border-box;
+  
+      .dv-border-box-8 {
+        position: absolute;
+        width: 100%;
+        // &:nth-child(2) {
+        //   top: 5px;
+        //   left: 5px;
+        // }
+        // &:nth-child(3) {
+        //   top: 10px;
+        //   left: 10px;
+        // }
+        
+        .loop(@n) when (@n > 1) {
+          &:nth-child(@{n}) {
+            top: -(@n - 1) * 5px;
+            left: -(@n - 1) * 5px;
+          }
+          .loop(@n - 1);
+        }
+        .loop(3); // 从第1个元素到第3个元素的循环
+      }
+      .dv-capsule-chart {
+        width: 100%;
+        height: 80%;
+        padding: 30px 30px;
+        box-sizing: border-box;
+        .capsule-item-column {
+          background: -webkit-linear-gradient(left, #75bcba, #309882, #232928);
+        }
+      }
+      .dv-charts-container {
+        width: 100%;
+        height: 20%;
+        padding: 0 30px;
+        box-sizing: border-box;
+      }
+    }
+    .right-conetnt {
+      position: absolute;
+      height: calc(100vh - 180px);
+      width: 25%;
+      right: 0;
+      margin: 20px;
+      box-sizing: border-box;
+      .dv-border-box-11 {
+        height: 50%;
+        .border-box-content {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+        }
+      }
+      .table {
+        width: 100%;
+        height: 48%;
+        position: relative;
+        margin-top: 1rem;
+        .dv-border-box-12 {
+          padding: 10px 0;
+          position: absolute;
+          height: 100%;
+          box-sizing: border-box;
+        }
+        .dv-scroll-board {
+          width: 100%;
+          height: 100%;
+          padding: 10px;
+          box-sizing: border-box;
+          .header {
+            position: relative;
+            background-color: transparent;
+            background-image: none;
+            // &::after {
+            //   position: absolute;
+            //   background: red;
+            // }
+            .header-item {
+              text-align: center;
+            }
+          }
+          .rows {
+            height: 85% !important;
+          }
+        }
+      }
+    }
+    .bottom-content {
+      width: 45%;
+      height: 20%;
+      position: absolute;
+    //   bottom: 20px;
+      top:calc(100vh - 280px);
+      left: 50%;
+      transform: translateX(-50%);
+      margin: 20px 0;
+      box-sizing: border-box;
+      display: flex;
+      justify-content: space-between;
+      .card {
+        position: relative;
+        width: calc(25% - 16px);
+        .dv-border-box-6 {
+          position: absolute;
+          .border-box-content {
+            padding: 10px;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-around;
+            .title {
+              text-align: center;
+            }
+          }
+        }
+      }
+    }
+  
+    .center-content{
+      width: 45%;
+      height: 60vh;
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+  }
