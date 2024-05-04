@@ -633,7 +633,8 @@ export default function LeiXing() {
     ],
   };
 
-  const Section = ({ className, name, option, map, ...rest }) => {
+  // 封装组件
+  const Section = ({ className, name, option, map }) => {
     return (
       <div className={className}>
         <BorderBox7 color={["red", " #FF574A"]} backgroundColor="">
@@ -644,7 +645,6 @@ export default function LeiXing() {
               name={name}
               style={{ width: "100%", height: "97%" }}
               option={option}
-              {...rest}
             />
           ) : (
             ""
@@ -699,20 +699,22 @@ export default function LeiXing() {
 
       <div className="lxLeft">
         <BorderBox12 color={["#A60000", "#FF574A"]}>
-          <Section
-            className="lxLeft1"
-            name="PieL"
-            style={{ width: "50%", height: "105%" }}
-            option={Left1}
-          />
-          <Section
-            className="lxLeft2"
-            name="zzt"
-            style={{ width: "50%", height: "105%" }}
-            option={Left2}
-            auto={true}
-            onPlay={onPlay}
-          />
+          <div className="lxLeft1">
+            <Echarts
+              name="PieL"
+              style={{ width: "50%", height: "105%" }}
+              option={Left1}
+            />
+          </div>
+          <div className="lxLeft2">
+            <Echarts
+              name="zzt"
+              style={{ width: "50%", height: "105%" }}
+              option={Left2}
+              auto={true}
+              onPlay={onPlay}
+            />
+          </div>
         </BorderBox12>
       </div>
       <div className="lxRight">
