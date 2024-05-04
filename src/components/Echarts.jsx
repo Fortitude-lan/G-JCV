@@ -4,7 +4,7 @@
  * @Author: wanghexing
  * @Date: 2024-03-24 16:54:46
  * @LastEditors: wanghexing
- * @LastEditTime: 2024-05-03 09:04:11
+ * @LastEditTime: 2024-05-04 17:51:57
  */
 import React, { useEffect, useRef, useState } from "react";
 // 引入 echarts 核心模块，核心模块提供了 echarts 使用必须要的接口。
@@ -45,15 +45,16 @@ export default function Echart(props) {
     style,
     className,
     onHoverChange = () => {},
+    auto,
+    datas,
     onClick = () => {},
   } = props;
-
   let chart = useRef();
+  let timer = null;
   //创建一个resize事件
   const echartsResize = () => {
     console.log("重新resize");
     chart.current.resize();
-    // echarts.init(document.getElementById(name ? name : "echarts")).resize();
   };
   /**
    * 初始化图表组件
@@ -65,7 +66,7 @@ export default function Echart(props) {
 
       chart.current.on("click", (params) => {
         if (onClick) {
-          // console.log(params)
+          // console.log(params);
           onClick(params.data);
         }
       });
@@ -75,7 +76,11 @@ export default function Echart(props) {
       window.removeEventListener("resize", echartsResize);
       if (chart.current) {
         window.addEventListener("resize", echartsResize);
-        chart.current.setOption(option, true);
+        chart.current.setOption(option, false);
+      }
+      // console.log("初始化");
+      if (auto) {
+        initialScroll(option, chart);
       }
     }, 20);
   }, []);
@@ -92,18 +97,52 @@ export default function Echart(props) {
       chart.current.setOption(option, true);
     }
   }, [option]);
+  const handleClick = () => {};
 
+  //定时器
+  // 开启定时器
+  const initialScroll = (option, chart) => {
+    // 只有当大于10条数据的时候 才会看起来滚动
+    // let data1 = option.series[0].data; //value
+    // let data2 = option.yAxis.data; //name
+    let data1 = datas.map((i) => ({ value: i.value, itemStyle: i.itemStyle })); //value
+    let data2 = datas.map((i) => i.name); //name
+    let beginK = 0;
+    let beginArr1 = data1.splice(0, beginK);
+    let beginArr2 = data2.splice(0, beginK);
+    let time = setInterval(() => {
+      let first1 = data1.shift();
+      let first2 = data2.shift();
+      data1.push(first1);
+      data2.push(first2);
+      // console.log([...beginArr1, ...data1]);
+      // console.log([...beginArr2, ...data2]);
+      chart.current.setOption({
+        yAxis: {
+          ...option.yAxis.data,
+          data: [...beginArr2, ...data2],
+        },
+        series: [
+          {
+            ...option.series[0].data,
+            data: [...beginArr1, ...data1],
+          },
+        ],
+      });
+    }, 3000);
+    timer = time;
+  };
   return name ? (
     <div
       id={name}
       style={style ? style : { width: "100%", height: "100%" }}
-      //   onClick={onClick?onClick:onClick}
+      // onClick={onClick ? onClick : handleClick}
     ></div>
   ) : (
     <div
       id="echarts"
       style={style ? style : { width: "100%", height: "100%" }}
-      //   onClick={onClick?onClick:onClick}
+      // onClick={onClick ? onClick : handleClick}
     ></div>
   );
 }

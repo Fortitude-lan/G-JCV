@@ -3,12 +3,50 @@ import "./DiYu.less";
 import { BorderBox7, ScrollBoard, Charts } from "@jiaminghi/data-view-react";
 import * as echarts from "echarts";
 import { Menu, Echarts } from "@/components";
-import { r1Data, r2Data, fzrsData, bmData } from "./datas/data";
+import { r1Data, r2Data, fzrsData, bmData, mapCrimeDatas } from "./datas/data";
 import mapJson from "@/utils/China.json";
-import Top7 from '@/assets/images/Top7.png'
+import Top7 from "@/assets/images/Top7.png";
+import { div } from "three/examples/jsm/nodes/Nodes.js";
 
 export default function DiYu() {
-  const [dataLLLL, setdataLLLL] = useState(null);
+  const [selectedArea, setSelectedArea] = useState("all");
+  const [render, setrender] = useState(true);
+  let dataList = [
+    // { name: "澳门", value: 0 },
+    // { name: "香港", value: 0 },
+    // { name: "台湾", value: 0 },
+    { name: "新疆", value: 3 },
+    { name: "宁夏", value: 9 },
+    { name: "青海", value: 3 },
+    { name: "甘肃", value: 8 },
+    { name: "陕西", value: 14 },
+    { name: "西藏", value: 1 },
+    { name: "云南", value: 28 },
+    { name: "贵州", value: 11 },
+    { name: "四川", value: 24 },
+    { name: "重庆", value: 7 },
+    { name: "海南", value: 8 },
+    { name: "广西", value: 27 },
+    { name: "广东", value: 40 },
+    { name: "湖南", value: 41 },
+    { name: "湖北", value: 14 },
+    { name: "河南", value: 53 },
+    { name: "山东", value: 27 },
+    { name: "江西", value: 61 },
+    { name: "福建", value: 29 },
+    { name: "安徽", value: 25 },
+    { name: "浙江", value: 19 },
+    { name: "江苏", value: 22 },
+    { name: "上海", value: 9 },
+    { name: "黑龙江", value: 19 },
+    { name: "吉林", value: 44 },
+    { name: "辽宁", value: 43 },
+    { name: "内蒙古", value: 26 },
+    { name: "山西", value: 6 },
+    { name: "河北", value: 38 },
+    { name: "天津", value: 4 },
+    { name: "北京", value: 2 },
+  ];
   // 地图组件
   const Map = () => {
     // 注册自定义地图类型, 类型名称, 地图数据
@@ -60,42 +98,7 @@ export default function DiYu() {
     // });
     // dataList.find(i=>i.name==dataLLLL)
     // 配置项
-    let dataList = [
-      // { name: "澳门", value: 0 },
-      // { name: "香港", value: 0 },
-      // { name: "台湾", value: 0 },
-      { name: "新疆", value: 3 },
-      { name: "宁夏", value: 9 },
-      { name: "青海", value: 3 },
-      { name: "甘肃", value: 8 },
-      { name: "陕西", value: 14 },
-      { name: "西藏", value: 1 },
-      { name: "云南", value: 28 },
-      { name: "贵州", value: 11 },
-      { name: "四川", value: 24 },
-      { name: "重庆", value: 7 },
-      { name: "海南", value: 8 },
-      { name: "广西", value: 27 },
-      { name: "广东", value: 40 },
-      { name: "湖南", value: 41 },
-      { name: "湖北", value: 14 },
-      { name: "河南", value: 53 },
-      { name: "山东", value: 27 },
-      { name: "江西", value: 61 },
-      { name: "福建", value: 29 },
-      { name: "安徽", value: 25 },
-      { name: "浙江", value: 19 },
-      { name: "江苏", value: 22 },
-      { name: "上海", value: 9 },
-      { name: "黑龙江", value: 19 },
-      { name: "吉林", value: 44 },
-      { name: "辽宁", value: 43 },
-      { name: "内蒙古", value: 26 },
-      { name: "山西", value: 6 },
-      { name: "河北", value: 38 },
-      { name: "天津", value: 4 },
-      { name: "北京", value: 2 },
-    ];
+
     const option = {
       // 映射小图
       // visualMap: {
@@ -196,6 +199,10 @@ export default function DiYu() {
         bottom: 1,
         right: 1,
       },
+      // tooltip: {
+      //   trigger: "item",
+      //   formatter: `{a}<br/><br/>  <b>{b}</b> :   {c}件`,
+      // },
       // 地图
       geo: [
         {
@@ -228,8 +235,8 @@ export default function DiYu() {
     };
 
     const onClick = (p) => {
-      console.log(p);
-      setdataLLLL(p.name);
+      console.log(p.name);
+      setSelectedArea(p.name);
     };
 
     return (
@@ -296,7 +303,7 @@ export default function DiYu() {
   ];
   const Leftoption = {
     title: {
-      text: "各省未成年人犯罪人数统计",
+      text: "各省未成年人犯罪统计",
       textStyle: {
         color: "rgba(255, 255, 255, 1)",
         fontFamily: "font3",
@@ -312,6 +319,24 @@ export default function DiYu() {
       axisPointer: {
         type: "shadow",
       },
+      formatter: function (params) {
+        console.log(params);
+        let divs = Object.keys(mapCrimeDatas[params[0].name]).map(
+          (i) => `${i}: ${mapCrimeDatas[params[0].name][i]}件`
+        );
+        let html = ``;
+        html = `
+        <div>${params[0].marker} ${params[0].name} :
+        ${divs
+          .map((i) => {
+            return ` <div>${i}</div>`;
+          })
+          .join("")}
+        共： ${params[0].data.value} 件</div>
+        `;
+
+        return html;
+      },
     },
     legend: {
       top: "25",
@@ -321,31 +346,297 @@ export default function DiYu() {
       },
     },
     grid: {
-      left: "0%",
-      right: "-3%",
+      left: "5%",
+      right: "5%",
       bottom: "1%",
       containLabel: true,
     },
     xAxis: {
       type: "value",
-      boundaryGap: [0, 0.5],
+      // boundaryGap: [0, 0.5],
+      axisTick: {
+        show: false,
+      },
+      // y轴线样式
+      axisLine: {
+        show: false,
+        lineStyle: {
+          color: "#DCE2E8",
+        },
+      },
+      // y轴文字样式
+      axisLabel: {
+        color: "#FFF",
+      },
+      // y轴每一条横线样式
+      splitLine: {
+        show: true,
+        lineStyle: {
+          type: "dashed",
+          // color: "rgba(118, 169, 250, .5)",
+          color: "rgba(24, 136, 103, 0.7)",
+        },
+      },
     },
     yAxis: {
       type: "category",
-      data: fzrsData[0].list.map((i) => i.name),
+      data: dataList.map((v) => v.name),
+      axisLine: {
+        lineStyle: {
+          // color: "rgba(118, 169, 250, .8)",
+          color: "rgba(24, 136, 103)",
+        },
+      },
+      // 是否显示x轴刻度尺
+      axisTick: {
+        show: false,
+      },
+      // x轴文字配置
+      axisLabel: {
+        interval: 0,
+        color: "#fff",
+        // 默认x轴字体大小
+        fontSize: 12,
+        // margin:文字到x轴的距离
+        margin: 5,
+      },
     },
-    series: fzrsData.map((i, idx) => {
-      console.log(colorList[idx]);
-      return {
-        name: i.year,
+    series: [
+      {
+        data: dataList.map((v, id) => ({
+          value: v.value,
+          itemStyle: { color: colorList[id % 2] },
+        })),
         type: "bar",
-        data: i.list.map((j) => j.value),
-        itemStyle: { color: colorList[idx] },
-      };
-    }),
+        smooth: true,
+        z: 99,
+      },
+    ],
+    // series: fzrsData.map((i, idx) => {
+    //   return {
+    //     name: i.year,
+    //     type: "bar",
+    //     // data: i.list.map((j) => j.value),
+    //     data: dataList.map((v) => v.value),
+    //     itemStyle: { color: colorList[idx] },
+    //   };
+    // }),
+    dataZoom: [
+      {
+        show: false, // 为true 滚动条出现
+        realtime: true,
+        type: "slider", // 有type这个属性，滚动条在最下面，也可以不行，写y：36，这表示距离顶端36px，一般就是在图上面。
+        startValue: 0, // 表示默认展示20%～80%这一段。
+        endValue: 10,
+        yAxisIndex: 0, //关联多个y轴
+      },
+      {
+        type: "inside",
+        xAxisIndex: 0, //关联多个y轴
+        zoomOnMouseWheel: false, //滚轮是否触发缩放
+        moveOnMouseMove: false,
+      },
+    ],
+  };
+
+  const getLOption = () => {
+    const LOption = {
+      tooltip: {
+        show: true,
+        trigger: "item",
+        padding: [8, 15],
+        backgroundColor: "rgba(12, 51, 115,0.8)",
+        borderColor: "rgba(3, 11, 44, 0.5)",
+        textStyle: {
+          color: "rgba(255, 255, 255, 1)",
+        },
+      },
+      legend: {
+        show: false,
+      },
+      grid: {
+        left: "2%",
+        right: "2%",
+        top: "5%",
+        bottom: "3%",
+      },
+      xAxis: [
+        {
+          splitLine: {
+            show: false,
+          },
+          type: "value",
+          show: false,
+          axisLine: {
+            //x轴坐标轴，false为隐藏，true为显示
+            show: false,
+          },
+        },
+      ],
+      yAxis: [
+        {
+          show: true,
+          splitLine: {
+            show: false,
+          },
+          axisLine: {
+            show: false,
+          },
+          type: "category",
+          axisTick: {
+            show: false,
+          },
+          inverse: true,
+          axisLabel: {
+            show: false,
+          },
+        },
+        {
+          type: "category",
+          inverse: true,
+          axisTick: "none",
+          axisLine: "none",
+          show: true,
+          axisLabel: {
+            inside: true,
+            verticalAlign: "bottom",
+            lineHeight: 54,
+            margin: 5, //刻度标签与轴线之间的距离
+            show: true,
+            textStyle: {
+              color: "rgba(255, 255, 255, 1)",
+              fontFamily: "SourceHanSansCN-Normal",
+              fontSize: 22,
+            },
+            formatter: function (value) {
+              return value + "亿元";
+            },
+          },
+          data: [100, 90, 80, 70, 60, 50, 40, 30],
+        },
+      ],
+      series: [
+        {
+          show: true,
+          name: "",
+          type: "bar",
+          data: [
+            { name: "北京", value: 100 },
+            { name: "上海", value: 90 },
+            { name: "广州", value: 80 },
+            { name: "天津", value: 70 },
+            { name: "山东", value: 60 },
+            { name: "江苏", value: 50 },
+            { name: "安徽", value: 40 },
+            { name: "河北", value: 30 },
+          ],
+          barWidth: 20, // 柱子宽度
+          showBackground: true,
+          backgroundStyle: {
+            color: {
+              type: "linear",
+              x: 0,
+              y: 0,
+              x2: 1,
+              y2: 1,
+              colorStops: [
+                {
+                  offset: 0,
+                  color: "rgba(5, 31, 81, 1)",
+                },
+                {
+                  offset: 1,
+                  color: "rgba(21, 78, 138, 1)",
+                },
+              ],
+            },
+          },
+          label: {
+            show: true,
+            offset: [5, -30],
+            color: "rgba(255, 255, 255, 1)",
+            fontFamily: "SourceHanSansCN-Normal",
+            fontSize: 22,
+            fontWeight: 500,
+            position: "left",
+            align: "left",
+            formatter: function (params) {
+              return params.data.name;
+            },
+          },
+          itemStyle: {
+            barBorderRadius: [10, 10, 10, 10],
+            color: {
+              type: "linear",
+              x: 0,
+              y: 0,
+              x2: 1,
+              y2: 1,
+              colorStops: [
+                {
+                  offset: 0,
+                  color: "rgba(80, 179, 255, 0.3)",
+                },
+                {
+                  offset: 1,
+                  color: "rgba(93, 160, 236, 1)",
+                },
+              ],
+            },
+          },
+        },
+        {
+          name: "外圆",
+          type: "scatter",
+          emphasis: {
+            scale: false,
+          },
+          symbol: "rect",
+          symbolSize: [5, 26], // 进度条白点
+          itemStyle: {
+            show: true,
+            barBorderRadius: [10, 10, 10, 10],
+            color: "#FFF",
+            shadowColor: "rgba(255, 255, 255, 0.5)",
+            shadowBlur: 5,
+            borderWidth: 1,
+            opacity: 1,
+          },
+          z: 2,
+          data: [
+            { name: "北京", value: 100 },
+            { name: "上海", value: 90 },
+            { name: "广州", value: 80 },
+            { name: "天津", value: 70 },
+            { name: "山东", value: 60 },
+            { name: "江苏", value: 50 },
+            { name: "安徽", value: 40 },
+            { name: "河北", value: 30 },
+          ],
+          animationDelay: 500,
+        },
+      ],
+      dataZoom: {
+        yAxisIndex: [0, 1], // 这里是从X轴的0刻度开始
+        show: false, // 是否显示滑动条，不影响使用
+        type: "slider", // 这个 dataZoom 组件是 slider 型 dataZoom 组件
+        startValue: 0, // 从头开始。
+        endValue: 5, // 展示到第几个。
+      },
+    };
+    return LOption;
   };
 
   const Bottomoption = {
+    title: {
+      text:
+        "2018年-至今未成年犯罪案件---" +
+        (selectedArea == "all" ? "全国" : selectedArea),
+      textStyle: {
+        color: "rgba(255, 255, 255, 1)",
+        fontFamily: "font3",
+      },
+    },
     tooltip: {
       trigger: "axis",
       color: "#00",
@@ -360,9 +651,21 @@ export default function DiYu() {
           color: "rgba(28, 124, 196, .6)",
         },
       },
+      formatter: function (params) {
+        console.log(params[0]);
+        let html = ``;
+        html = `
+          <b>${
+            selectedArea == "all" ? "全国" : selectedArea
+          } 2018年-至今未成年犯罪案件 </b>
+          <div>${params[0].marker} ${params[0].name}年</div>
+          <div>案件：${params[0].value}个</div>
+          `;
+        return html;
+      },
     },
     grid: {
-      top: "11%",
+      top: "20%",
       left: "5%",
       right: "4%",
       bottom: "1%",
@@ -371,7 +674,8 @@ export default function DiYu() {
     xAxis: [
       {
         type: "category",
-        data: bmData.xData,
+        // data: bmData.xData,
+        data: Object.keys(mapCrimeDatas[selectedArea]),
         axisLine: {
           show: true,
         },
@@ -392,7 +696,8 @@ export default function DiYu() {
     yAxis: [
       {
         type: "value",
-        min: 5,
+        min: 0,
+        minInterval: 1,
         axisTick: {
           show: false,
         },
@@ -419,7 +724,8 @@ export default function DiYu() {
     series: [
       {
         type: "line",
-        data: bmData.yData,
+        // data: bmData.yData,
+        data: Object.values(mapCrimeDatas[selectedArea]),
         smooth: true,
         symbolSize: 10,
         // lineStyle: {
@@ -450,7 +756,7 @@ export default function DiYu() {
 
   const Right1option = {
     title: {
-      text: "2023年未成年人犯罪具体数量",
+      text: "2017-2022年全国未成年人犯罪数量",
       textStyle: {
         color: "rgba(255, 255, 255, 1)",
         fontFamily: "font3",
@@ -479,7 +785,7 @@ export default function DiYu() {
     // x轴配置
     xAxis: {
       type: "category",
-      data: bmData.xData,
+      data: Object.keys(r1Data),
       // x轴线的样式
       axisLine: {
         lineStyle: {
@@ -540,12 +846,13 @@ export default function DiYu() {
 
     series: [
       {
-        name: "数量",
+        name: "人数",
         // 柱子宽度
         barWidth: 100,
         // 塔尖柱子类型
         type: "pictorialBar",
         barCategoryGap: "0",
+        selectedMode: false,
         // 必须引入该项
         symbol: "path://M0,10 L10,10 C5.5,10 5.5,5 5,0 C4.5,5 4.5,10 0,10 z",
         itemStyle: {
@@ -568,14 +875,14 @@ export default function DiYu() {
           position: "top",
           color: "#FFF",
         },
-        data: r1Data.datas,
+        data: Object.values(r1Data),
         z: 10,
       },
     ],
   };
   const Right2option = {
     title: {
-      text: "2023年未成年人犯罪人数占比",
+      text: "2017-2023年未成年犯罪人数占同期人数比",
       textStyle: {
         color: "rgba(255, 255, 255, 1)",
         fontFamily: "font3",
@@ -584,23 +891,13 @@ export default function DiYu() {
     tooltip: {
       trigger: "item",
       formatter: function (params) {
-        let total = r2Data.reduce((accumulator, currentValue) => {
-          return accumulator + Number(currentValue.value);
-        }, 0);
-
-        let str =
-          params.name +
-          "</br>" +
-          "数量：" +
-          params.value +
-          "</br>" +
-          "占比：" +
-          ((params.data.value / total) * 100).toFixed(2) +
-          "%";
-        return str;
+        let html = ``;
+        html = `
+        <div>${params.marker} ${params.name}年: ${params.value}%</div>
+        `;
+        return html;
       },
     },
-
     legend: {
       top: "30",
       icon: "roundRect",
@@ -617,37 +914,17 @@ export default function DiYu() {
       {
         name: "",
         type: "pie",
-        startAngle: -180,
+        startAngle: 180,
+        endAngle: 360,
         hoverAnimation: false,
         radius: ["50%", "95%"],
         center: ["50%", "95%"],
-        data: [
-          ...r2Data,
-          {
-            value: r2Data.reduce((accumulator, currentValue) => {
-              return accumulator + Number(currentValue.value);
-            }, 0),
-            name: "",
-            itemStyle: {
-              normal: {
-                color: "rgba(0,0,0,0)",
-              },
-            },
-          },
-        ],
+        data: r2Data,
         label: {
           normal: {
             formatter: function (params) {
-              let total = r2Data.reduce((accumulator, currentValue) => {
-                return accumulator + Number(currentValue.value);
-              }, 0);
               if (params.name) {
-                return (
-                  params.data.name +
-                  "(" +
-                  ((params.data.value / total) * 100).toFixed(2) +
-                  "%)"
-                );
+                return params.data.name;
               }
             },
             color: "#fff",
@@ -659,10 +936,10 @@ export default function DiYu() {
         },
         labelLine: {
           normal: {
-            length: 30,
-            length2: 20,
+            length: 10,
+            // length2: 20,
             lineStyle: {
-              width: 1,
+              width: 3,
             },
           },
         },
@@ -670,7 +947,7 @@ export default function DiYu() {
     ],
   };
   // 封装组件
-  const Section = ({ className, name, option, map, scrollBoard }) => {
+  const Section = ({ className, name, option, map, scrollBoard, ...rest }) => {
     return (
       <div className={className}>
         <BorderBox7 color={["red", " #FF574A"]} backgroundColor="">
@@ -683,6 +960,7 @@ export default function DiYu() {
               name={name}
               style={{ width: "100%", height: "97%" }}
               option={option}
+              {...rest}
             />
           ) : (
             ""
@@ -701,7 +979,16 @@ export default function DiYu() {
         <p className="P2">BAO GANG BIG DATA PLATFORM</p>
       </div>
       <Section className="Center" map={true} />
-      <Section className="Left" name="Left" option={Leftoption} />
+      <Section
+        className="Left"
+        name="Left"
+        option={Leftoption}
+        auto={true}
+        datas={dataList.map((v, id) => ({
+          ...v,
+          itemStyle: { color: colorList[id % 2] },
+        }))}
+      />
       <div className="Right">
         <Section className="MinRight1" name="Right1" option={Right1option} />
         <Section className="MinRight2" name="Right2" option={Right2option} />

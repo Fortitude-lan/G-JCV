@@ -527,7 +527,7 @@ export default function TeZheng() {
         <Section className="Center1">
           <Carousel autoplay>
             <div className="c">
-              <div className="tt">Ⅰ  2021年未成年犯罪举例</div>
+              <div className="tt">Ⅰ  未成年犯罪举例</div>
               <img src={bg} style={{ width: "100%", height: "100%" }} />
               <div className="c-c">
                 姓名：李某<br />
@@ -539,7 +539,7 @@ export default function TeZheng() {
               </div>
             </div>
             <div className="c">
-              <div className="tt">Ⅱ  2021年未成年犯罪举例</div>
+              <div className="tt">Ⅱ  未成年犯罪举例</div>
               <img src={bg} alt="" style={{ width: "100%", height: "100%" }} />
               <div className="c-c">
                 姓名：吴某<br />
@@ -551,7 +551,7 @@ export default function TeZheng() {
               </div>
             </div>
             <div className="c">
-              <div className="tt">Ⅲ  2021年未成年犯罪举例</div>
+              <div className="tt">Ⅲ  未成年犯罪举例</div>
               <img src={bg} alt="" style={{ width: "100%", height: "100%" }} />
               <div className="c-c">
                 姓名：王某<br />

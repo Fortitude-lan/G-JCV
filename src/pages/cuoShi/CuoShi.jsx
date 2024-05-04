@@ -108,6 +108,7 @@ export default function CuoShi() {
       </div>
       <div className="left">
         <BorderBox7 color={["#A60000", "#FF574A"]} />
+        {/* <div className="tit">预防措施</div> */}
 
         <Popover
           placement="right"
@@ -123,7 +124,7 @@ export default function CuoShi() {
             </div>
           }
         >
-          <div className="left1">
+          <div className="left1 h-box">
             <div className="tt">家庭教育</div>
           </div>
         </Popover>
@@ -142,7 +143,7 @@ export default function CuoShi() {
             </div>
           }
         >
-          <div className="left2">
+          <div className="left2 h-box">
             <div className="tt">学校教育</div>
           </div>
         </Popover>
@@ -161,7 +162,7 @@ export default function CuoShi() {
             </div>
           }
         >
-          <div className="left3">
+          <div className="left3 h-box">
             <div className="tt">社区参与</div>
           </div>
         </Popover>
@@ -180,7 +181,7 @@ export default function CuoShi() {
             </div>
           }
         >
-          <div className="left4">
+          <div className="left4 h-box">
             <div className="tt">法律宣传</div>
           </div>
         </Popover>
@@ -259,36 +260,6 @@ export default function CuoShi() {
         </Swiper>
       </div>
 
-      {/* <Swiper
-          spaceBetween={30}
-          effect={'fade'}
-          className='aaa'
-          // slidesPerView={3}
-          centeredSlides={true}
-          navigation={true}
-          pagination={{
-            clickable: true,
-          }}
-          modules={[
-            EffectFade,
-            Autoplay,
-            Navigation,
-            Pagination
-          ]}
-          autoplay={{
-            delay: 3000,
-            disableOnInteraction: false,
-          }}
-          loop
-        >
-          {slideList?.map(itm => {
-          return (
-            <SwiperSlide key={itm.id}>
-              < img src={`${itm.img}`} alt={itm.title} />
-            </SwiperSlide>
-          )
-        })}
-        </Swiper> */}
     </div>
   );
 }

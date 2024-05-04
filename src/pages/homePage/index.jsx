@@ -1,7 +1,7 @@
 import React, { useRef, useState, useEffect } from "react";
 //引入路由库中跳转路由的方法
 import { useNavigate } from "react-router-dom";
-import {Carousel, Tooltip } from "antd";
+import { Carousel, Tooltip } from "antd";
 import { Echarts } from "@/components";
 import * as echarts from "echarts";
 import "./index.less";
@@ -428,11 +428,11 @@ export default function HomePage() {
       },
       {
         name: "社会寻找精神支持",
-        value: 400,
+        value: 170,
       },
       {
         name: "大骂体罚导致心里创伤",
-        value: 483,
+        value: 200,
       },
       {
         name: "缺少情感支持",
@@ -452,11 +452,11 @@ export default function HomePage() {
       },
       {
         name: "父母缺少可信度",
-        value: 400,
+        value: 190,
       },
       {
         name: "放纵",
-        value: 300,
+        value: 160,
       },
       {
         name: "逆反心理",
@@ -529,7 +529,7 @@ export default function HomePage() {
     ];
     return {
       //数据可以点击
-      tooltip: {},
+      // tooltip: {},
       series: [
         {
           width: "90%",

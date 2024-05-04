@@ -16,15 +16,15 @@ import {
   bl2Data,
   brData,
 } from "./datas/data";
-import * as echarts from 'echarts';
-import Top7 from '@/assets/images/Top7.png'
+import * as echarts from "echarts";
+import Top7 from "@/assets/images/Top7.png";
 
 export default function LeiXing() {
   // 左1
   const Left1 = {
     tooltip: {
-      trigger: 'item',
-      formatter: '{a} <br/>{b} : {c} ({d}%)'
+      trigger: "item",
+      formatter: "{a} <br/>{b} : {c} ({d}%)",
     },
     legend: {
       data: l1Data.type,
@@ -44,9 +44,9 @@ export default function LeiXing() {
         left: "20%",
         radius: "80%", // 调节大小，半径
         center: ["40%", "53%"], // 调节位子 name: 'Radius Mode',
-        roseType: 'radius',
+        roseType: "radius",
         itemStyle: {
-          borderRadius: 0
+          borderRadius: 0,
         },
         label: {
           show: true,
@@ -59,8 +59,8 @@ export default function LeiXing() {
         },
         emphasis: {
           label: {
-            show: true
-          }
+            show: true,
+          },
         },
         data: [
           { value: 490, name: "侵犯财产犯罪" },
@@ -73,7 +73,7 @@ export default function LeiXing() {
           return a.value - b.value;
         }),
       },
-    ]
+    ],
   };
   // 左2
   const Left2 = {
@@ -119,15 +119,18 @@ export default function LeiXing() {
           },
         },
         itemStyle: {
-          color: params => {
-            return new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
-              offset: 0,
-              color: 'rgba(113,240,203,1)'
-            }, {
-              offset: 1,
-              color: 'rgba(113,240,203,0.2)'
-            }])
-          }
+          color: (params) => {
+            return new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+              {
+                offset: 0,
+                color: "rgba(113,240,203,1)",
+              },
+              {
+                offset: 1,
+                color: "rgba(113,240,203,0.2)",
+              },
+            ]);
+          },
         },
         showBackground: true,
         // backgroundStyle: {
@@ -599,11 +602,12 @@ export default function LeiXing() {
   return (
     <div className="LX">
       <div className="Header">
-        <img src={Top7} alt="" />
         <Menu />
-        <div className="lxTitle">犯罪类型</div>
+        <img src={Top7} alt="" />
+        <p className="P1">犯罪类型</p>
         <p className="P2">BAO GANG BIG DATA PLATFORM</p>
       </div>
+
       <div className="lxLeft">
         <BorderBox12 color={["#A60000", "#FF574A"]}>
           <div className="lxLeft1">
