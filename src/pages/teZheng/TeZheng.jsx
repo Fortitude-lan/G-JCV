@@ -610,7 +610,7 @@ export default function TeZheng() {
       <div className="Right">
         <Section className="Right1" name="xxs" option={Right1option} />
         <Section className="Right2" name="xxx" option={Right2option} />
-      </div>
+      </div>  
     </div>
   );
 }

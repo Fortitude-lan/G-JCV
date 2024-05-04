@@ -438,195 +438,6 @@ export default function DiYu() {
       },
     ],
   };
-
-  const getLOption = () => {
-    const LOption = {
-      tooltip: {
-        show: true,
-        trigger: "item",
-        padding: [8, 15],
-        backgroundColor: "rgba(12, 51, 115,0.8)",
-        borderColor: "rgba(3, 11, 44, 0.5)",
-        textStyle: {
-          color: "rgba(255, 255, 255, 1)",
-        },
-      },
-      legend: {
-        show: false,
-      },
-      grid: {
-        left: "2%",
-        right: "2%",
-        top: "5%",
-        bottom: "3%",
-      },
-      xAxis: [
-        {
-          splitLine: {
-            show: false,
-          },
-          type: "value",
-          show: false,
-          axisLine: {
-            //x轴坐标轴，false为隐藏，true为显示
-            show: false,
-          },
-        },
-      ],
-      yAxis: [
-        {
-          show: true,
-          splitLine: {
-            show: false,
-          },
-          axisLine: {
-            show: false,
-          },
-          type: "category",
-          axisTick: {
-            show: false,
-          },
-          inverse: true,
-          axisLabel: {
-            show: false,
-          },
-        },
-        {
-          type: "category",
-          inverse: true,
-          axisTick: "none",
-          axisLine: "none",
-          show: true,
-          axisLabel: {
-            inside: true,
-            verticalAlign: "bottom",
-            lineHeight: 54,
-            margin: 5, //刻度标签与轴线之间的距离
-            show: true,
-            textStyle: {
-              color: "rgba(255, 255, 255, 1)",
-              fontFamily: "SourceHanSansCN-Normal",
-              fontSize: 22,
-            },
-            formatter: function (value) {
-              return value + "亿元";
-            },
-          },
-          data: [100, 90, 80, 70, 60, 50, 40, 30],
-        },
-      ],
-      series: [
-        {
-          show: true,
-          name: "",
-          type: "bar",
-          data: [
-            { name: "北京", value: 100 },
-            { name: "上海", value: 90 },
-            { name: "广州", value: 80 },
-            { name: "天津", value: 70 },
-            { name: "山东", value: 60 },
-            { name: "江苏", value: 50 },
-            { name: "安徽", value: 40 },
-            { name: "河北", value: 30 },
-          ],
-          barWidth: 20, // 柱子宽度
-          showBackground: true,
-          backgroundStyle: {
-            color: {
-              type: "linear",
-              x: 0,
-              y: 0,
-              x2: 1,
-              y2: 1,
-              colorStops: [
-                {
-                  offset: 0,
-                  color: "rgba(5, 31, 81, 1)",
-                },
-                {
-                  offset: 1,
-                  color: "rgba(21, 78, 138, 1)",
-                },
-              ],
-            },
-          },
-          label: {
-            show: true,
-            offset: [5, -30],
-            color: "rgba(255, 255, 255, 1)",
-            fontFamily: "SourceHanSansCN-Normal",
-            fontSize: 22,
-            fontWeight: 500,
-            position: "left",
-            align: "left",
-            formatter: function (params) {
-              return params.data.name;
-            },
-          },
-          itemStyle: {
-            barBorderRadius: [10, 10, 10, 10],
-            color: {
-              type: "linear",
-              x: 0,
-              y: 0,
-              x2: 1,
-              y2: 1,
-              colorStops: [
-                {
-                  offset: 0,
-                  color: "rgba(80, 179, 255, 0.3)",
-                },
-                {
-                  offset: 1,
-                  color: "rgba(93, 160, 236, 1)",
-                },
-              ],
-            },
-          },
-        },
-        {
-          name: "外圆",
-          type: "scatter",
-          emphasis: {
-            scale: false,
-          },
-          symbol: "rect",
-          symbolSize: [5, 26], // 进度条白点
-          itemStyle: {
-            show: true,
-            barBorderRadius: [10, 10, 10, 10],
-            color: "#FFF",
-            shadowColor: "rgba(255, 255, 255, 0.5)",
-            shadowBlur: 5,
-            borderWidth: 1,
-            opacity: 1,
-          },
-          z: 2,
-          data: [
-            { name: "北京", value: 100 },
-            { name: "上海", value: 90 },
-            { name: "广州", value: 80 },
-            { name: "天津", value: 70 },
-            { name: "山东", value: 60 },
-            { name: "江苏", value: 50 },
-            { name: "安徽", value: 40 },
-            { name: "河北", value: 30 },
-          ],
-          animationDelay: 500,
-        },
-      ],
-      dataZoom: {
-        yAxisIndex: [0, 1], // 这里是从X轴的0刻度开始
-        show: false, // 是否显示滑动条，不影响使用
-        type: "slider", // 这个 dataZoom 组件是 slider 型 dataZoom 组件
-        startValue: 0, // 从头开始。
-        endValue: 5, // 展示到第几个。
-      },
-    };
-    return LOption;
-  };
-
   const Bottomoption = {
     title: {
       text:
@@ -969,7 +780,38 @@ export default function DiYu() {
       </div>
     );
   };
-
+  const onPlay = (option, chart) => {
+    console.log("滚动");
+    let datas = dataList.map((v, id) => ({
+      ...v,
+      itemStyle: { color: colorList[id % 2] },
+    }));
+    let data1 = datas.map((i) => ({ value: i.value, itemStyle: i.itemStyle })); //value
+    let data2 = datas.map((i) => i.name); //name
+    let beginK = 0;
+    let beginArr1 = data1.splice(0, beginK);
+    let beginArr2 = data2.splice(0, beginK);
+    let time = setInterval(() => {
+      let first1 = data1.shift();
+      let first2 = data2.shift();
+      data1.push(first1);
+      data2.push(first2);
+      // console.log([...beginArr1, ...data1]);
+      // console.log([...beginArr2, ...data2]);
+      chart.current.setOption({
+        yAxis: {
+          ...option.yAxis.data,
+          data: [...beginArr2, ...data2],
+        },
+        series: [
+          {
+            ...option.series[0].data,
+            data: [...beginArr1, ...data1],
+          },
+        ],
+      });
+    }, 3000);
+  };
   return (
     <div className="DY">
       <div className="Header">
@@ -984,10 +826,11 @@ export default function DiYu() {
         name="Left"
         option={Leftoption}
         auto={true}
-        datas={dataList.map((v, id) => ({
-          ...v,
-          itemStyle: { color: colorList[id % 2] },
-        }))}
+        // datas={dataList.map((v, id) => ({
+        //   ...v,
+        //   itemStyle: { color: colorList[id % 2] },
+        // }))}
+        onPlay={onPlay}
       />
       <div className="Right">
         <Section className="MinRight1" name="Right1" option={Right1option} />

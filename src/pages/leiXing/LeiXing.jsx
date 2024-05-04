@@ -75,19 +75,55 @@ export default function LeiXing() {
       },
     ],
   };
+  //颜色列表
+  const colorList = [
+    new echarts.graphic.LinearGradient(1, 0, 0, 0, [
+      {
+        offset: 0,
+        color: "rgba(24,136,103,1)",
+      },
+      {
+        offset: 1,
+        color: "rgba(24,136,103,0.2)",
+      },
+    ]),
+    new echarts.graphic.LinearGradient(1, 0, 0, 0, [
+      {
+        offset: 0,
+        color: "rgba(113,240,203,1)",
+      },
+      {
+        offset: 1,
+        color: "rgba(113,240,203,0.2)",
+      },
+    ]),
+  ];
   // 左2
   const Left2 = {
-    // color: "#BD0000",
-    // color: "rgba(113, 240, 203)",
-
+    tooltip: {
+      trigger: "axis",
+      axisPointer: {
+        type: "shadow",
+      },
+    },
     xAxis: {
       type: "category",
       data: l2Data.xAxis,
+      axisTick: {
+        show: false,
+      },
       axisLabel: {
         //坐标轴字体颜色
+        interval: 0,
         textStyle: {
           // color: '#545454'
           color: "#fff",
+        },
+        formatter: (value, index) => {
+          if (value.length > 3) {
+            return value.substring(0, 2) + "...";
+          }
+          return value;
         },
       },
       axisLine: {
@@ -106,6 +142,14 @@ export default function LeiXing() {
           color: "#fff",
         },
       },
+      splitLine: {
+        show: true,
+        lineStyle: {
+          type: "dashed",
+          // color: "rgba(118, 169, 250, .5)",
+          color: "#fff",
+        },
+      },
     },
     series: [
       {
@@ -119,23 +163,34 @@ export default function LeiXing() {
           },
         },
         itemStyle: {
-          color: (params) => {
-            return new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-              {
-                offset: 0,
-                color: "rgba(113,240,203,1)",
-              },
-              {
-                offset: 1,
-                color: "rgba(113,240,203,0.2)",
-              },
-            ]);
-          },
+          color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+            {
+              offset: 0,
+              color: "rgba(113,240,203,1)",
+            },
+            {
+              offset: 1,
+              color: "rgba(113,240,203,0.2)",
+            },
+          ]),
         },
         showBackground: true,
-        // backgroundStyle: {
-        //   color: 'rgba(230, 230, 230, 0.2)'
-        // }
+      },
+    ],
+    dataZoom: [
+      {
+        show: false, // 为true 滚动条出现
+        realtime: true,
+        type: "slider", // 有type这个属性，滚动条在最下面，也可以不行，写y：36，这表示距离顶端36px，一般就是在图上面。
+        startValue: 0, // 表示默认展示20%～80%这一段。
+        endValue: 5,
+        xAxisIndex: 0, //关联多个y轴
+      },
+      {
+        type: "inside",
+        xAxisIndex: 0, //关联多个y轴
+        zoomOnMouseWheel: false, //滚轮是否触发缩放
+        moveOnMouseMove: false,
       },
     ],
   };
@@ -416,13 +471,13 @@ export default function LeiXing() {
       left: "5%",
       right: "6%",
       bottom: "3%",
-      top: "14%",
+      top: "20%",
       containLabel: true,
     },
     legend: {
       icon: "rect",
       right: "80",
-      top: 10,
+      top: "10%",
       itemWidth: 20,
       itemHeight: 10,
       textStyle: {
@@ -578,8 +633,7 @@ export default function LeiXing() {
     ],
   };
 
-  // 封装组件
-  const Section = ({ className, name, option, map }) => {
+  const Section = ({ className, name, option, map, ...rest }) => {
     return (
       <div className={className}>
         <BorderBox7 color={["red", " #FF574A"]} backgroundColor="">
@@ -590,6 +644,7 @@ export default function LeiXing() {
               name={name}
               style={{ width: "100%", height: "97%" }}
               option={option}
+              {...rest}
             />
           ) : (
             ""
@@ -598,7 +653,41 @@ export default function LeiXing() {
       </div>
     );
   };
+  const onPlay = (option, chart) => {
+    console.log("滚动");
+    let datas = l2Data.data.map((v, id) => ({
+      name: l2Data.xAxis[id],
+      value: v,
+      itemStyle: { color: colorList[id % 2] },
+    }));
 
+    let data1 = datas.map((i) => ({ value: i.value, itemStyle: i.itemStyle })); //value
+    let data2 = datas.map((i) => i.name); //name
+    let beginK = 0;
+    let beginArr1 = data1.splice(0, beginK);
+    let beginArr2 = data2.splice(0, beginK);
+    let time = setInterval(() => {
+      let first1 = data1.shift();
+      let first2 = data2.shift();
+      data1.push(first1);
+      data2.push(first2);
+      // console.log([...beginArr1, ...data1]);
+      // console.log([...beginArr2, ...data2]);
+
+      chart.current.setOption({
+        xAxis: {
+          ...option.xAxis.data,
+          data: [...beginArr2, ...data2],
+        },
+        series: [
+          {
+            ...option.series[0].data,
+            data: [...beginArr1, ...data1],
+          },
+        ],
+      });
+    }, 3000);
+  };
   return (
     <div className="LX">
       <div className="Header">
@@ -610,20 +699,20 @@ export default function LeiXing() {
 
       <div className="lxLeft">
         <BorderBox12 color={["#A60000", "#FF574A"]}>
-          <div className="lxLeft1">
-            <Echarts
-              name="PieL"
-              style={{ width: "50%", height: "105%" }}
-              option={Left1}
-            />
-          </div>
-          <div className="lxLeft2">
-            <Echarts
-              name="zzt"
-              style={{ width: "50%", height: "105%" }}
-              option={Left2}
-            />
-          </div>
+          <Section
+            className="lxLeft1"
+            name="PieL"
+            style={{ width: "50%", height: "105%" }}
+            option={Left1}
+          />
+          <Section
+            className="lxLeft2"
+            name="zzt"
+            style={{ width: "50%", height: "105%" }}
+            option={Left2}
+            auto={true}
+            onPlay={onPlay}
+          />
         </BorderBox12>
       </div>
       <div className="lxRight">

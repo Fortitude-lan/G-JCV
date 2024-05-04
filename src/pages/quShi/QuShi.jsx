@@ -3,11 +3,40 @@ import "./QuShi.less";
 import { BorderBox7 } from "@jiaminghi/data-view-react";
 import * as echarts from "echarts";
 import { Menu, Echarts } from "@/components";
-import { jjbhData, jj, season, colorList, lData } from "./datas/data";
-import Top7 from '@/assets/images/Top7.png'
+import {
+  right1Data,
+  jjbhData,
+  jj,
+  season,
+  colorList,
+  lData,
+} from "./datas/data";
+import Top7 from "@/assets/images/Top7.png";
 
 export default function QuShi() {
-  // 初始化series
+  //颜色列表
+  const colorList1 = [
+    new echarts.graphic.LinearGradient(1, 0, 0, 0, [
+      {
+        offset: 0,
+        color: "rgba(24,136,103,1)",
+      },
+      {
+        offset: 1,
+        color: "rgba(24,136,103,0.2)",
+      },
+    ]),
+    new echarts.graphic.LinearGradient(1, 0, 0, 0, [
+      {
+        offset: 0,
+        color: "rgba(113,240,203,1)",
+      },
+      {
+        offset: 1,
+        color: "rgba(113,240,203,0.2)",
+      },
+    ]),
+  ]; // 初始化series
   const getSeries = () => {
     const generateRandomArray = (size, min, max, decimalPlaces = 0) => {
       let arr = [];
@@ -20,7 +49,6 @@ export default function QuShi() {
         // 将随机数格式化为指定的小数位数
         arr.push(randomNum.toFixed(decimalPlaces));
       }
-      console.log(arr);
       return arr;
     };
     let series = [];
@@ -52,7 +80,7 @@ export default function QuShi() {
       textStyle: {
         fontSize: 25,
         fontWeight: "bold",
-        color: '#FFF',
+        color: "#FFF",
         fontFamily: "font3",
       },
       left: "center",
@@ -132,32 +160,32 @@ export default function QuShi() {
     dataZoom:
       lData.xDate.length > 7
         ? [
-          {
-            show: true,
-            height: 12,
-            xAxisIndex: [0],
-            bottom: "3%",
-            start: 10,
-            end: 90,
-            handleIcon:
-              "path://M306.1,413c0,2.2-1.8,4-4,4h-59.8c-2.2,0-4-1.8-4-4V200.8c0-2.2,1.8-4,4-4h59.8c2.2,0,4,1.8,4,4V413z",
-            handleSize: "110%",
-            handleStyle: {
-              color: "#d3dee5",
+            {
+              show: true,
+              height: 12,
+              xAxisIndex: [0],
+              bottom: "3%",
+              start: 10,
+              end: 90,
+              handleIcon:
+                "path://M306.1,413c0,2.2-1.8,4-4,4h-59.8c-2.2,0-4-1.8-4-4V200.8c0-2.2,1.8-4,4-4h59.8c2.2,0,4,1.8,4,4V413z",
+              handleSize: "110%",
+              handleStyle: {
+                color: "#d3dee5",
+              },
+              textStyle: {
+                color: "#313131",
+              },
+              borderColor: "#90979c",
             },
-            textStyle: {
-              color: "#313131",
+            {
+              type: "inside",
+              show: true,
+              height: 15,
+              start: 1,
+              end: 35,
             },
-            borderColor: "#90979c",
-          },
-          {
-            type: "inside",
-            show: true,
-            height: 15,
-            start: 1,
-            end: 35,
-          },
-        ]
+          ]
         : [],
     series: getSeries(),
   };
@@ -168,7 +196,7 @@ export default function QuShi() {
       textStyle: {
         fontSize: 16,
         fontWeight: "bold",
-        color: '#FFF',
+        color: "#FFF",
         fontFamily: "font3",
       },
       left: "0",
@@ -202,7 +230,7 @@ export default function QuShi() {
         itemHeight: 8,
         textStyle: {
           fontSize: 12,
-          color: '#FFF',
+          color: "#FFF",
         },
         right: "23%",
         top: "20%",
@@ -218,7 +246,7 @@ export default function QuShi() {
         itemHeight: 2,
         textStyle: {
           fontSize: 12,
-          color:"#FFF"
+          color: "#FFF",
         },
         right: "10%",
         top: "20%",
@@ -258,15 +286,18 @@ export default function QuShi() {
         itemWidth: 8,
         itemHeight: 8,
         itemStyle: {
-          color: params => {
-            return new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
-              offset: 0,
-              color: 'rgba(24,136,103,1)'
-            }, {
-              offset: 1,
-              color: 'rgba(24,136,103,0.3)'
-            }])
-          }
+          color: (params) => {
+            return new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+              {
+                offset: 0,
+                color: "rgba(24,136,103,1)",
+              },
+              {
+                offset: 1,
+                color: "rgba(24,136,103,0.3)",
+              },
+            ]);
+          },
         },
         label: {
           normal: {
@@ -304,15 +335,14 @@ export default function QuShi() {
       text: "2017-2021年家庭教育程度对未成年人犯罪的影响",
       textStyle: {
         fontSize: 16,
-        color: '#FFF',
+        color: "#FFF",
         fontFamily: "font3",
       },
       left: "0",
-      top: '5%'
+      top: "5%",
     },
     tooltip: {
       trigger: "item",
-
     },
     legend: {
       // orient: "vertical", //垂直
@@ -321,9 +351,9 @@ export default function QuShi() {
       // itemWidth: 10,
       // itemHeight: 10,
       top: "bottom",
-      textStyle:{
-        color:"#FFF",
-      }
+      textStyle: {
+        color: "#FFF",
+      },
     },
     color: ["#063f2e", "#188867", "#085b43", "#30ab87", "#71f0cb"],
     series: [
@@ -363,7 +393,7 @@ export default function QuShi() {
       textStyle: {
         fontSize: 25,
         fontWeight: "bold",
-        color:"#FFF",
+        color: "#FFF",
         fontFamily: "font3",
       },
       left: "center",
@@ -371,10 +401,10 @@ export default function QuShi() {
     },
     // backgroundColor: 'white',
     grid: {
-      top: '15%',
-      left: '5%',
-      right: '5%',
-      bottom: '5%',
+      top: "15%",
+      left: "5%",
+      right: "5%",
+      bottom: "5%",
       containLabel: true,
     },
 
@@ -382,58 +412,79 @@ export default function QuShi() {
       trigger: "axis",
     },
     xAxis: {
-      data: ['冲动', '义气', '享乐', '好奇', '教唆', '金钱', '网瘾', '报复', '性需求',],
+      data: right1Data.xAxis,
+      axisTick: {
+        show: false,
+      },
+      axisLabel: {
+        //坐标轴字体颜色
+        interval: 0,
+        textStyle: {
+          // color: '#545454'
+          color: "#fff",
+        },
+        formatter: (value, index) => {
+          if (value.length > 3) {
+            return value.substring(0, 2) + "...";
+          }
+          return value;
+        },
+      },
       axisLine: {
         show: true,
         lineStyle: {
-          color: '#E5E6EB',
-        }
-      },
-      axisLabel: {
-        color: '#FFF',
-        fontSize: 12,
+          color: "#E5E6EB",
+        },
       },
     },
-      yAxis: [{
-      type: 'value',
-      nameTextStyle: {
-        color: "#000",
-        fontSize: 14,
-        padding: [0, 0, 0, 30]
-      },
-      axisLabel: {
-        formatter: "{value} %",
-        textStyle: {
-          color:"#FFF"
+    yAxis: [
+      {
+        type: "value",
+        nameTextStyle: {
+          color: "#000",
+          fontSize: 14,
+          // padding: [0, 0, 0, 30],
+        },
+        axisLabel: {
+          formatter: "{value} %",
+          textStyle: {
+            color: "#FFF",
+          },
+        },
+        splitLine: {
+          //网格线
+          show: false,
         },
       },
-      splitLine: {     //网格线
-        "show": false,
-      }
-    }],
+    ],
     series: [
       {
-        type: 'bar',
-        barWidth: 35,
-        data: [40.40, 24.70, 18.30, 14.90, 12.50, 10.50, 6.90, 3, 2],
-        itemStyle: {
-          //barBorderRadius: 5,
-          //渐变色
-          color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-            {
-              offset: 0,
-              color: "#188867",
-            },
-            {
-              offset: 1,
-              color: "rgba(24, 136, 103, 0.3)",
-            },
-          ]),
-        },
+        type: "bar",
+        barWidth: 45,
+        data: right1Data.data.map((v, id) => ({
+          value: v,
+          itemStyle: { color: colorList1[id % 2] },
+        })),
         showBackground: true,
-      }
-    ]
-  }
+      },
+    ],
+    dataZoom: [
+      {
+        show: false, // 为true 滚动条出现
+        realtime: true,
+        type: "slider", // 有type这个属性，滚动条在最下面，也可以不行，写y：36，这表示距离顶端36px，一般就是在图上面。
+        startValue: 0, // 表示默认展示20%～80%这一段。
+        endValue: 7,
+        xAxisIndex: 0, //关联多个y轴
+      },
+      {
+        type: "inside",
+        xAxisIndex: 0, //关联多个y轴
+        zoomOnMouseWheel: false, //滚轮是否触发缩放
+        moveOnMouseMove: false,
+      },
+    ],
+  };
 
   //  right2
   const right2option = {
@@ -442,7 +493,7 @@ export default function QuShi() {
       textStyle: {
         fontSize: 16,
         fontWeight: "bold",
-        color: '#FFF',
+        color: "#FFF",
         fontFamily: "font3",
       },
       left: "0",
@@ -452,77 +503,69 @@ export default function QuShi() {
       top: 40,
       bottom: 40,
       left: 40,
-      right: 40
+      right: 40,
     },
     tooltip: {
-      trigger: 'axis',
+      trigger: "axis",
       axisPointer: {
-        type: 'shadow'
+        type: "shadow",
       },
       formatter: function (data) {
-        console.log(data)
-        let html = ``
+        console.log(data);
+        let html = ``;
         html = `
         <div>${data[0].marker} ${data[0].name}: ${data[0].value}%</div>
-        `
-        return html
-      }
+        `;
+        return html;
+      },
     },
     calculable: true,
     legend: {
-      show: false
+      show: false,
     },
     xAxis: [
       {
-        type: 'category',
+        type: "category",
         axisLabel: {
           // rotate: 45 // 旋转角度
           color: "#FFF",
         },
-        data: [
-          '初中',
-          '文盲',
-          '高中',
-          '小学',
-          '中专',
-          '大专',
-          '本科',
-        ]
-      }
+
+        data: ["初中", "文盲", "高中", "小学", "中专", "大专", "本科"],
+      },
     ],
     yAxis: [
       {
-        type: 'value',
-        name: '',
+        type: "value",
+        name: "",
         axisLabel: {
-          formatter: '{value}%',
+          formatter: "{value}%",
           color: "#FFF",
-        }
+        },
       },
-
     ],
     series: [
       {
-        name: '百分比',
-        type: 'bar',
+        name: "百分比",
+        type: "bar",
         itemStyle: {
-          color: params => {
-            return new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
-              offset: 0,
-              color: 'rgba(113,240,203,1)'
-            }, {
-              offset: 1,
-              color: 'rgba(113,240,203,0.3)'
-            }])
-          }
+          color: (params) => {
+            return new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+              {
+                offset: 0,
+                color: "rgba(113,240,203,1)",
+              },
+              {
+                offset: 1,
+                color: "rgba(113,240,203,0.3)",
+              },
+            ]);
+          },
         },
-        data: [
-          47.8, 4.36, 10.6, 26.9, 6.5, 1.46, 1.93
-        ]
+        data: [47.8, 4.36, 10.6, 26.9, 6.5, 1.46, 1.93],
       },
-
-    ]
-  }
+    ],
+  };
 
   //  变量 right3
   const right3option = {
@@ -531,7 +574,7 @@ export default function QuShi() {
       textStyle: {
         fontSize: 16,
         fontWeight: "bold",
-        color: '#FFF',
+        color: "#FFF",
         fontFamily: "font3",
       },
       left: "0",
@@ -540,7 +583,7 @@ export default function QuShi() {
     // backgroundColor:'#000',
     color: ["#063f2e", "#188867", "#085b43", "#30ab87", "#71f0cb"],
     tooltip: {
-      trigger: 'item'
+      trigger: "item",
     },
     legend: {
       // orient: 'vertical',
@@ -553,43 +596,43 @@ export default function QuShi() {
       // color:"#FFF",
       // right: 20,
       textStyle: {
-        color: '#FFF'
-      }
+        color: "#FFF",
+      },
     },
     grid: {
-      left: '3%',
-      right: '4%',
-      bottom: '10%',
-      top: '10%',
+      left: "3%",
+      right: "4%",
+      bottom: "10%",
+      top: "10%",
     },
     series: [
       {
-        name: '占比',
-        type: 'pie',
-        radius: '50%',
+        name: "占比",
+        type: "pie",
+        radius: "50%",
         labelLine: {
-          show: false
+          show: false,
         },
         label: {
           show: false,
-          position: 'center'
+          position: "center",
         },
         itemStyle: {
-          borderColor: '#000',
+          borderColor: "#000",
           borderWidth: 5,
         },
         data: [
-          { value: 45.9, name: '家庭经济困难' },
-          { value: 17.56, name: '辍学' },
-          { value: 12, name: '遭遇双重家庭变故' },
-          { value: 2.5, name: '流浪、乞讨' },
-          { value: 15, name: '家庭有服刑前例' }
+          { value: 45.9, name: "家庭经济困难" },
+          { value: 17.56, name: "辍学" },
+          { value: 12, name: "遭遇双重家庭变故" },
+          { value: 2.5, name: "流浪、乞讨" },
+          { value: 15, name: "家庭有服刑前例" },
         ],
-      }
-    ]
+      },
+    ],
   };
   // 封装组件
-  const Section = ({ className, name, option, map }) => {
+  const Section = ({ className, name, option, map, ...rest }) => {
     return (
       <div className={className}>
         <BorderBox7 color={["red", " #FF574A"]} backgroundColor="">
@@ -600,6 +643,7 @@ export default function QuShi() {
               name={name}
               style={{ width: "100%", height: "97%" }}
               option={option}
+              {...rest}
             />
           ) : (
             ""
@@ -607,6 +651,40 @@ export default function QuShi() {
         </BorderBox7>
       </div>
     );
+  };
+  const onPlay = (option, chart) => {
+    console.log("滚动");
+    let datas = right1Data.data.map((v, id) => ({
+      name: right1Data.xAxis[id],
+      value: v,
+      itemStyle: { color: colorList1[id % 2] },
+    }));
+
+    let data1 = datas.map((i) => ({ value: i.value, itemStyle: i.itemStyle })); //value
+    let data2 = datas.map((i) => i.name); //name
+    let beginK = 0;
+    let beginArr1 = data1.splice(0, beginK);
+    let beginArr2 = data2.splice(0, beginK);
+    let time = setInterval(() => {
+      let first1 = data1.shift();
+      let first2 = data2.shift();
+      data1.push(first1);
+      data2.push(first2);
+      // console.log([...beginArr1, ...data1]);
+      // console.log([...beginArr2, ...data2]);
+      chart.current.setOption({
+        xAxis: {
+          ...option.xAxis.data,
+          data: [...beginArr2, ...data2],
+        },
+        series: [
+          {
+            ...option.series[0].data,
+            data: [...beginArr1, ...data1],
+          },
+        ],
+      });
+    }, 3000);
   };
   return (
     <div className="QS">
@@ -617,12 +695,17 @@ export default function QuShi() {
         <p className="P2">BAO GANG BIG DATA PLATFORM</p>
       </div>
       <Section className="Left1" name="Leftone" option={Leftoneoption} />
-      <Section className="Right1" name="right1" option={right1option} />
+      <Section
+        className="Right1"
+        name="qsright1"
+        option={right1option}
+        auto={true}
+        onPlay={onPlay}
+      />
       <Section className="Left2" name="jjbh" option={jjbhOption} />
       <Section className="Left3" name="jt" option={jtOption} />
       <Section className="Right2" name="right2" option={right2option} />
       <Section className="Right3" name="right3" option={right3option} />
-
     </div>
   );
 }

@@ -48,6 +48,7 @@ export default function Echart(props) {
     auto,
     datas,
     onClick = () => {},
+    onPlay = () => {},
   } = props;
   let chart = useRef();
   let timer = null;
@@ -102,35 +103,36 @@ export default function Echart(props) {
   //定时器
   // 开启定时器
   const initialScroll = (option, chart) => {
+    onPlay(option, chart);
     // 只有当大于10条数据的时候 才会看起来滚动
     // let data1 = option.series[0].data; //value
     // let data2 = option.yAxis.data; //name
-    let data1 = datas.map((i) => ({ value: i.value, itemStyle: i.itemStyle })); //value
-    let data2 = datas.map((i) => i.name); //name
-    let beginK = 0;
-    let beginArr1 = data1.splice(0, beginK);
-    let beginArr2 = data2.splice(0, beginK);
-    let time = setInterval(() => {
-      let first1 = data1.shift();
-      let first2 = data2.shift();
-      data1.push(first1);
-      data2.push(first2);
-      // console.log([...beginArr1, ...data1]);
-      // console.log([...beginArr2, ...data2]);
-      chart.current.setOption({
-        yAxis: {
-          ...option.yAxis.data,
-          data: [...beginArr2, ...data2],
-        },
-        series: [
-          {
-            ...option.series[0].data,
-            data: [...beginArr1, ...data1],
-          },
-        ],
-      });
-    }, 3000);
-    timer = time;
+    // let data1 = datas.map((i) => ({ value: i.value, itemStyle: i.itemStyle })); //value
+    // let data2 = datas.map((i) => i.name); //name
+    // let beginK = 0;
+    // let beginArr1 = data1.splice(0, beginK);
+    // let beginArr2 = data2.splice(0, beginK);
+    // let time = setInterval(() => {
+    //   let first1 = data1.shift();
+    //   let first2 = data2.shift();
+    //   data1.push(first1);
+    //   data2.push(first2);
+    //   // console.log([...beginArr1, ...data1]);
+    //   // console.log([...beginArr2, ...data2]);
+    //   chart.current.setOption({
+    //     yAxis: {
+    //       ...option.yAxis.data,
+    //       data: [...beginArr2, ...data2],
+    //     },
+    //     series: [
+    //       {
+    //         ...option.series[0].data,
+    //         data: [...beginArr1, ...data1],
+    //       },
+    //     ],
+    //   });
+    // }, 3000);
+    // timer = time;
   };
   return name ? (
     <div
