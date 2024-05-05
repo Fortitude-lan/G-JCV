@@ -376,11 +376,13 @@ export default function HomePage() {
   };
 
   useEffect(() => {
-    getCYOption();
-    console.log("sss");
+    setTimeout(() => {
+      getCYOption();
+    }, 1000);
   }, []);
 
   const getCYOption = () => {
+    console.log("sss");
     const img = new Image();
     img.src = cybg;
     const colorList = [
@@ -527,6 +529,7 @@ export default function HomePage() {
         value: 30,
       },
     ];
+
     return {
       //数据可以点击
       // tooltip: {},
