@@ -36,47 +36,10 @@ export default function QuShi() {
         color: "rgba(113,240,203,0.2)",
       },
     ]),
-  ]; // 初始化series
-  const getSeries = () => {
-    const generateRandomArray = (size, min, max, decimalPlaces = 0) => {
-      let arr = [];
-      if (min > max) {
-        [min, max] = [max, min];
-      }
-      for (let i = 0; i < size; i++) {
-        // 生成一个介于min和max之间的随机数
-        let randomNum = min + Math.random() * (max - min);
-        // 将随机数格式化为指定的小数位数
-        arr.push(randomNum.toFixed(decimalPlaces));
-      }
-      return arr;
-    };
-    let series = [];
-    season.map((i, index) => {
-      series.push({
-        name: i.name,
-        type: "line",
-        // smooth:true,
-        stack: "总量",
-        symbolSize: 0,
-        itemStyle: {
-          normal: {
-            color: colorList[index],
-            lineStyle: {
-              color: colorList[index],
-              width: 2,
-            },
-          },
-        },
-        // data: i.value,
-        data: generateRandomArray(6, 0, 100),
-      });
-    });
-    return series;
-  };
-  const Leftoneoption = {
+  ];
+  const Left1option = {
     title: {
-      text: "2017-2021年未成年人犯罪家庭情况",
+      text: "2020-2022未成年网络犯罪趋势",
       textStyle: {
         fontSize: 25,
         fontWeight: "bold",
@@ -86,109 +49,154 @@ export default function QuShi() {
       left: "center",
       top: "5%",
     },
-    color: colorList,
-    grid: {
-      left: "5%",
-      right: "5%",
-      top: "15%",
-      bottom: "5%",
-      // containLabel: true
-    },
+    //  backgroundColor: "#000",
+    color: ["#71f0cb", "#085b43", "#188867", "#30ab87"],
     tooltip: {
-      show: true,
       trigger: "axis",
-    },
-    legend: {
-      show: true,
-      icon: "stack",
-      itemWidth: 15,
-      itemHeight: 4,
-      textStyle: {
-        color: "white",
+      axisPointer: {
+        // 坐标轴指示器，坐标轴触发有效
+        type: "shadow", // 默认为直线，可选为：'line' | 'shadow'
       },
     },
+    animation: true,
+
+    legend: {
+      top: "15%",
+      left: "15%",
+      icon: "circle",
+      itemWidth: 13, // 设置宽度
+      itemHeight: 13, // 设置高度
+      itemGap: 20, // 设置间距，
+      textStyle: {
+        // 图例文字的样式
+        color: "#fff",
+        fontSize: 15,
+      },
+      data: [
+        "占同期受理审查起诉未成年人总数比例",
+        "曾受过刑事处罚人数",
+        "侵害农村留守儿童犯罪情况",
+        "未成年人涉嫌帮助信息网络犯罪情况",
+      ],
+    },
+    grid: {
+      left: "3%",
+      right: "4%",
+      bottom: "3%",
+      containLabel: true,
+    },
+
     xAxis: [
       {
         type: "category",
-        boundaryGap: 1,
+        data: ["2020年", "2021年", "2022年"],
+        axisTick: {
+          alignWithLabel: true,
+        },
+        nameTextStyle: {
+          color: "#fff",
+        },
         axisLine: {
-          show: false,
+          lineStyle: {
+            color: "RGB(47,68,114)",
+          },
         },
         axisLabel: {
-          color: "#FFF",
+          textStyle: {
+            color: "white",
+          },
         },
-        splitLine: {
-          show: false,
-        },
-        axisTick: {
-          show: false,
-        },
-        data: lData.xDate,
       },
     ],
     yAxis: [
       {
         type: "value",
-        name: lData.unit,
+        name: "人数",
         nameTextStyle: {
-          align: "center",
-          padding: [10, -10, 0, -50],
-          color: "#FFF",
+          color: "#fff",
+        },
+        position: "left",
+        axisLabel: {
+          textStyle: {
+            color: "white",
+          },
+          formatter: "{value}",
         },
         splitLine: {
-          show: true,
           lineStyle: {
-            color: "#FFF",
             type: "dashed",
+            color: "RGB(47,68,114)",
           },
         },
         axisLine: {
-          show: false,
-        },
-        axisLabel: {
           show: true,
-          margin: 10,
-          textStyle: {
-            color: "#FFF",
+          lineStyle: {
+            color: "RGB(47,68,114)",
           },
         },
-        axisTick: {
-          show: false,
+      },
+      {
+        type: "value",
+        name: "百分比",
+        nameTextStyle: {
+          color: "#fff",
+        },
+        min: 0,
+        max: 25,
+        interval: 5,
+        axisLabel: {
+          formatter: "{value} %",
+          textStyle: {
+            color: "#fff",
+          },
         },
       },
     ],
-    dataZoom:
-      lData.xDate.length > 7
-        ? [
-            {
-              show: true,
-              height: 12,
-              xAxisIndex: [0],
-              bottom: "3%",
-              start: 10,
-              end: 90,
-              handleIcon:
-                "path://M306.1,413c0,2.2-1.8,4-4,4h-59.8c-2.2,0-4-1.8-4-4V200.8c0-2.2,1.8-4,4-4h59.8c2.2,0,4,1.8,4,4V413z",
-              handleSize: "110%",
-              handleStyle: {
-                color: "#d3dee5",
-              },
-              textStyle: {
-                color: "#313131",
-              },
-              borderColor: "#90979c",
-            },
-            {
-              type: "inside",
-              show: true,
-              height: 15,
-              start: 1,
-              end: 35,
-            },
-          ]
-        : [],
-    series: getSeries(),
+    series: [
+      {
+        name: "占同期受理审查起诉未成年人总数比例",
+        type: "line",
+        yAxisIndex: 1,
+        tooltip: {
+          valueFormatter: function (value) {
+            return value + " %";
+          },
+        },
+        data: [3.8, 2.9, 2.2],
+      },
+      {
+        name: "曾受过刑事处罚人数",
+        type: "bar",
+        tooltip: {
+          valueFormatter: function (value) {
+            return value + " 人";
+          },
+        },
+        data: [2092, 2197, 1737],
+      },
+      {
+        name: "侵害农村留守儿童犯罪情况",
+        type: "bar",
+        tooltip: {
+          valueFormatter: function (value) {
+            return value + " 人";
+          },
+        },
+        data: [2521, 2599, 2773],
+      },
+      {
+        name: "未成年人涉嫌帮助信息网络犯罪情况",
+        type: "bar",
+        tooltip: {
+          valueFormatter: function (value) {
+            return value + " 人";
+          },
+        },
+        data: [236, 3001, 5474],
+      },
+    ],
   };
+
   //变量  左二
   const jjbhOption = {
     title: {
@@ -694,7 +702,7 @@ export default function QuShi() {
         <p className="P1">犯罪趋势</p>
         <p className="P2">BAO GANG BIG DATA PLATFORM</p>
       </div>
-      <Section className="Left1" name="Leftone" option={Leftoneoption} />
+      <Section className="Left1" name="Left1" option={Left1option} />
       <Section
         className="Right1"
         name="qsright1"

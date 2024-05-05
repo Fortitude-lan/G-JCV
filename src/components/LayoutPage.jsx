@@ -4,13 +4,10 @@
  * @Author: wanghexing
  * @Date: 2024-04-11 22:22:58
  * @LastEditors: wanghexing
- * @LastEditTime: 2024-04-14 07:58:56
+ * @LastEditTime: 2024-05-05 17:30:34
  */
 import React, { useState } from "react";
-import {
-  MenuFoldOutlined,
-  MenuUnfoldOutlined,
-} from "@ant-design/icons";
+import { MenuFoldOutlined, MenuUnfoldOutlined } from "@ant-design/icons";
 import { Layout, Menu, Button, theme } from "antd";
 import { Outlet, useNavigate, useLocation } from "react-router-dom";
 import { RouteList } from "../router/router";
@@ -48,7 +45,14 @@ const LayoutPage = () => {
   return (
     <Layout style={{ minHeight: "100vh" }}>
       <Sider trigger={null} collapsible collapsed={collapsed}>
-        <div className="demo-logo-vertical" />
+        <div
+          className="demo-logo-vertical"
+          onClick={() => {
+            navigate("/");
+          }}
+        >
+          返回平台
+        </div>
         <Menu
           theme="dark"
           mode="inline"
@@ -74,6 +78,7 @@ const LayoutPage = () => {
               height: 64,
             }}
           />
+          <div className="head-title"> 未成年人犯罪统计数据管理</div>
         </Header>
         <Content
           style={{

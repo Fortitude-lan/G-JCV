@@ -1,17 +1,18 @@
-import React from "react";
+import React, { useState } from "react";
 import "./TeZheng.less";
 import { BorderBox7 } from "@jiaminghi/data-view-react";
 import { Menu, Echarts } from "@/components";
 import * as echarts from "echarts";
 import bg from "@/assets/images/center1.png";
-import Top7 from '@/assets/images/Top7.png'
-
+import Top7 from "@/assets/images/Top7.png";
+import { l1Data, alData } from "./datas/data";
 // import { r1Data, l2Data, nvfzData } from "./datas/data";
-import { Carousel } from "antd";
+import { Carousel, Select } from "antd";
 export default function TeZheng() {
+  const [selectValue, setselectValue] = useState("2020");
   const Center2option = {
     title: {
-      text: "未成年犯罪社会因素",
+      text: "2021-2023年未成年犯罪社会因素",
       // left: 'center',
       top: 5,
       textStyle: {
@@ -44,7 +45,7 @@ export default function TeZheng() {
     // },
     xAxis: {
       type: "category",
-      data: ["贫困", "失业", "资源匮乏", "心里健康"],
+      data: alData.sh.name,
       axisLabel: {
         //坐标轴字体颜色
         textStyle: {
@@ -123,7 +124,7 @@ export default function TeZheng() {
   const Left1option = {
     // backgroundColor: '#2c343c',
     title: {
-      text: "未成年犯罪男女分布比例",
+      text: "17-21年未成年犯罪男女分布比例",
       // left: 'center',
       top: 5,
       textStyle: {
@@ -143,58 +144,72 @@ export default function TeZheng() {
       },
     },
 
-    visualMap: {
-      show: false,
-      min: 80,
-      max: 600,
-      //图的颜色
-      inRange: {
-        color: ["#063f2e", "#188867", "#085b43", "#30ab87", "#71f0cb"],
-        colorLightness: [0, 1],
-      },
-    },
+    // visualMap: {
+    //   show: false,
+    //   min: 0,
+    //   max: 100,
+    //   //图的颜色
+    //   inRange: {
+    //     color: ["#085b43", "#30ab87"],
+    //     colorLightness: [0, 1],
+    //   },
+    // },
 
     series: [
       {
         name: "男女比例",
         type: "pie",
-        radius: "75%",
-        center: ["50%", "60%"],
+        radius: "70%",
+        center: ["50%", "55%"],
+        roseType: "radius",
+        itemStyle: {
+          borderRadius: 5,
+        },
         data: [
-          { value: 300, name: "男性80%" },
-          { value: 200, name: "女性20%" },
+          {
+            value: l1Data[selectValue].m,
+            name: "男性",
+            itemStyle: {
+              color: "#30ab87",
+            },
+          },
+          {
+            value: l1Data[selectValue].f,
+            name: "女性",
+            itemStyle: {
+              color: "#085b43",
+            },
+          },
         ].sort(function (a, b) {
           return a.value - b.value;
         }),
-        roseType: "radius",
         label: {
-          // color: "rgba(255, 255, 255, 0.3)",
-          color: "#fff"
+          color: "#fff",
         },
         labelLine: {
           lineStyle: {
             color: "rgba(255, 255, 255, 0.3)",
           },
           smooth: 0.2,
-          length: 10,
-          length2: 20,
+          length: 15,
+          length2: 10,
         },
-        itemStyle: {
-          color: "#c23531",
-          shadowBlur: 200,
-          shadowColor: "rgba(0, 0, 0, 0.5)",
-        },
-        animationType: "scale",
-        animationEasing: "elasticOut",
-        animationDelay: function (idx) {
-          return Math.random() * 200;
-        },
+        // itemStyle: {
+        //   color: "#c23531",
+        //   shadowBlur: 200,
+        //   shadowColor: "rgba(0, 0, 0, 0.5)",
+        // },
+        // animationType: "scale",
+        // animationEasing: "elasticOut",
+        // animationDelay: function (idx) {
+        //   return Math.random() * 200;
+        // },
       },
     ],
   };
   const Left2option = {
     title: {
-      text: "未成年犯罪家庭因素",
+      text: "2021年未成年犯罪家庭因素",
       // left: 'center',
       top: 5,
       textStyle: {
@@ -221,7 +236,7 @@ export default function TeZheng() {
     xAxis: {
       type: "category",
       splitLine: { show: false },
-      data: ["留守儿童", "单亲家庭", "再婚家庭", "孤儿", "其他"],
+      data: alData.jt.name,
       axisLabel: {
         //坐标轴字体颜色
         textStyle: {
@@ -259,12 +274,6 @@ export default function TeZheng() {
             },
           ]),
         },
-        // emphasis: {
-        //   itemStyle: {
-        //     borderColor: '',
-        //     color: ''
-        //   }
-        // },
         data: [1, 1, 1, 1, 1],
       },
       {
@@ -289,13 +298,13 @@ export default function TeZheng() {
           show: true,
           position: "inside",
         },
-        data: [1935, 856, 523, 190, 500],
+        data: alData.jt.value["2021"],
       },
     ],
   };
   const Right1option = {
     title: {
-      text: "未成年犯罪年龄比例",
+      text: "2021年未成年犯罪年龄比例",
       // left: 'center',
       top: 5,
       textStyle: {
@@ -314,7 +323,7 @@ export default function TeZheng() {
       top: "15%",
       left: "center",
     },
-    
+
     series: [
       {
         name: "年龄比例",
@@ -339,7 +348,6 @@ export default function TeZheng() {
         },
         labelLine: {
           show: false,
-
         },
         data: [
           { value: 300, name: "~12岁" },
@@ -354,7 +362,7 @@ export default function TeZheng() {
   };
   const Right2option = {
     title: {
-      text: "未成年犯罪学校因素",
+      text: "2021-2023年未成年犯罪学校因素",
       // left: 'center',
       top: 5,
       textStyle: {
@@ -377,7 +385,7 @@ export default function TeZheng() {
         fontFamily: "font3",
       },
       top: "10%",
-      data: ["校园欺凌", "学生攀比", "学生偏见", "老师偏见"],
+      data: ["2021年", "2022年", "2023年", "2024年"],
     },
     // toolbox: {
     //   feature: {
@@ -418,36 +426,36 @@ export default function TeZheng() {
     ],
     series: [
       {
-        name: "校园欺凌",
+        name: "2021年",
         type: "line",
         stack: "Total",
         areaStyle: {},
         emphasis: {
           focus: "series",
         },
-        data: [120, 132, 101, 134, 90, 230, 210],
+        data: alData.xx.value["2021"],
         color: "rgba(53, 240, 180)",
       },
       {
-        name: "学生攀比",
+        name: "2022年",
         type: "line",
         stack: "Total",
         areaStyle: {},
         emphasis: {
           focus: "series",
         },
-        data: [320, 182, 191, 234, 290, 330, 310],
+        data: alData.xx.value["2022"],
         color: "rgba(183, 340, 203)",
       },
       {
-        name: "学生偏见",
+        name: "2023年",
         type: "line",
         stack: "Total",
         areaStyle: {},
         emphasis: {
           focus: "series",
         },
-        data: [250, 232, 201, 154, 190, 330, 410],
+        data: alData.xx.value["2023"],
         color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
           {
             offset: 0.7,
@@ -460,14 +468,14 @@ export default function TeZheng() {
         ]),
       },
       {
-        name: "老师偏见",
+        name: "2024年",
         type: "line",
         stack: "Total",
         areaStyle: {},
         emphasis: {
           focus: "series",
         },
-        data: [420, 332, 301, 334, 390, 330, 320],
+        data: alData.xx.value["2024"],
         color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
           {
             offset: 0,
@@ -509,11 +517,16 @@ export default function TeZheng() {
               option={option}
             />
           ) : (
-            children && children
+            ""
           )}
+          {children && children}
         </BorderBox7>
       </div>
     );
+  };
+  const handleChange = (value) => {
+    console.log(`selected ${value}`);
+    setselectValue(value);
   };
   return (
     <div className="TZ">
@@ -527,75 +540,107 @@ export default function TeZheng() {
         <Section className="Center1">
           <Carousel autoplay>
             <div className="c">
-              <div className="tt">Ⅰ  未成年犯罪举例</div>
+              <div className="tt">Ⅰ 未成年犯罪举例</div>
               <img src={bg} style={{ width: "100%", height: "100%" }} />
               <div className="c-c">
-                姓名：李某<br />
-                性别：男<br />
+                姓名：李某
+                <br />
+                性别：男
+                <br />
                 年龄:15岁 <br />
-                家庭背景：家庭暴力<br />
-                学业情况：初中毕业<br />
-                犯罪倾向：家庭暴力<br />
+                家庭背景：家庭暴力
+                <br />
+                学业情况：初中毕业
+                <br />
+                犯罪倾向：家庭暴力
+                <br />
               </div>
             </div>
             <div className="c">
-              <div className="tt">Ⅱ  未成年犯罪举例</div>
+              <div className="tt">Ⅱ 未成年犯罪举例</div>
               <img src={bg} alt="" style={{ width: "100%", height: "100%" }} />
               <div className="c-c">
-                姓名：吴某<br />
-                性别：男<br />
+                姓名：吴某
+                <br />
+                性别：男
+                <br />
                 年龄:12岁 <br />
-                家庭背景：再婚家庭<br />
-                学业情况：小学毕业<br />
-                犯罪倾向：偷窃<br />
+                家庭背景：再婚家庭
+                <br />
+                学业情况：小学毕业
+                <br />
+                犯罪倾向：偷窃
+                <br />
               </div>
             </div>
             <div className="c">
-              <div className="tt">Ⅲ  未成年犯罪举例</div>
+              <div className="tt">Ⅲ 未成年犯罪举例</div>
               <img src={bg} alt="" style={{ width: "100%", height: "100%" }} />
               <div className="c-c">
-                姓名：王某<br />
-                性别：男<br />
+                姓名：王某
+                <br />
+                性别：男
+                <br />
                 年龄:17岁 <br />
-                家庭背景：单亲家庭<br />
-                学业情况：高中二年级<br />
-                犯罪倾向：校园暴力<br />
+                家庭背景：单亲家庭
+                <br />
+                学业情况：高中二年级
+                <br />
+                犯罪倾向：校园暴力
+                <br />
               </div>
             </div>
             <div className="c">
-              <div className="tt">Ⅳ  未成年犯罪举例</div>
+              <div className="tt">Ⅳ 未成年犯罪举例</div>
               <img src={bg} alt="" style={{ width: "100%", height: "100%" }} />
               <div className="c-c">
-                姓名：蔡某某<br />
-                性别：男<br />
+                姓名：蔡某某
+                <br />
+                性别：男
+                <br />
                 年龄:13岁 <br />
-                家庭背景：独生子<br />
-                学业情况：初中<br />
-                犯罪倾向：强奸未遂<br />
+                家庭背景：独生子
+                <br />
+                学业情况：初中
+                <br />
+                犯罪倾向：强奸未遂
+                <br />
               </div>
             </div>
             <div className="c">
-              <div className="tt">Ⅴ  未成年犯罪举例</div>
+              <div className="tt">Ⅴ 未成年犯罪举例</div>
               <img src={bg} alt="" style={{ width: "100%", height: "100%" }} />
               <div className="c-c">
-                姓名：吴某康<br />
-                性别：男<br />
-                年龄: 12岁<br />
-                家庭背景：母亲管理严格<br />
-                学业情况：小学六年级<br />
-                犯罪倾向：弑母<br />
+                姓名：吴某康
+                <br />
+                性别：男
+                <br />
+                年龄: 12岁
+                <br />
+                家庭背景：母亲管理严格
+                <br />
+                学业情况：小学六年级
+                <br />
+                犯罪倾向：弑母
+                <br />
               </div>
             </div>
             <div className="c">
-              <div className="tt">Ⅵ  未成年犯罪举例</div>
+              <div className="tt">Ⅵ 未成年犯罪举例</div>
               <img src={bg} alt="" style={{ width: "100%", height: "100%" }} />
               <div className="c-c">
-                姓名：某某姐妹<br />
-                性别：女<br />
-                年龄: 15岁<br />
-                家庭背景：父母管教严格<br />
-                学业情况：初中<br />
-                犯罪倾向：毒死父母<br />
+                姓名：某某姐妹
+                <br />
+                性别：女
+                <br />
+                年龄: 15岁
+                <br />
+                家庭背景：父母管教严格
+                <br />
+                学业情况：初中
+                <br />
+                犯罪倾向：毒死父母
+                <br />
               </div>
             </div>
           </Carousel>
@@ -604,13 +649,22 @@ export default function TeZheng() {
         <Section className="Center2" name="xxv" option={Center2option} />
       </div>
       <div className="Left">
-        <Section className="Left1" name="xxt" option={Left1option} />
+        <Section className="Left1" name="xxt" option={Left1option}>
+          <Select
+            defaultValue={selectValue}
+            style={{
+              width: 120,
+            }}
+            onChange={handleChange}
+            options={Object.keys(l1Data).map((i) => ({ value: i, label: i }))}
+          />
+        </Section>
         <Section className="Left2" name="xxy" option={Left2option} />
       </div>
       <div className="Right">
         <Section className="Right1" name="xxs" option={Right1option} />
         <Section className="Right2" name="xxx" option={Right2option} />
-      </div>  
+      </div>
     </div>
   );
 }

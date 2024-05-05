@@ -1,3 +1,11 @@
+/*
+ * @Descripttion:
+ * @version:
+ * @Author: wanghexing
+ * @Date: 2024-04-17 20:00:06
+ * @LastEditors: wanghexing
+ * @LastEditTime: 2024-05-05 17:29:15
+ */
 // 左1
 export const l1Data = {
   type: [
@@ -40,12 +48,13 @@ export const r2Data = {
 };
 // 下左1
 export const bl1Data = {
-  // year: ['2017', '2018', '2019', '2020'],
+  year: ["2017", "2018", "2019", "2020", "2021"],
   dbNum: [4157, 2785, 1667, 583, 581],
   gsNum: [5926, 4590, 2914, 1341, 1062],
 };
 // 下左2
 export const bl2Data = {
+  year: ["2017", "2018", "2019", "2020", "2021"],
   qjNum: [665, 896, 1302, 1461, 1503],
   wxNum: [2388, 3282, 5124, 5880, 6477],
   qzwrNum: [7550, 9267, 12912, 15365, 17564],
@@ -53,10 +62,10 @@ export const bl2Data = {
 // 下右
 export const brData = {
   dqNum: [
-    { value: 24052, name: "2017" },
-    { value: 20117, name: "2018" },
-    { value: 19061, name: "2019" },
-    { value: 15671, name: "2020" },
-    { value: 13742, name: "2021" },
+    { value: 24052, name: "2017", rate: 25.96 },
+    { value: 20117, name: "2018", rate: 21.71 },
+    { value: 19061, name: "2019", rate: 20.58 },
+    { value: 15671, name: "2020", rate: 16.92 },
+    { value: 13742, name: "2021", rate: 14.83 },
   ],
 };

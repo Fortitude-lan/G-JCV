@@ -78,13 +78,25 @@ export default function Menu() {
       label: (
         <a
           onClick={() => {
+            onClick("layout");
+          }}
+        >
+          查看数据
+        </a>
+      ),
+      key: "5",
+    },
+    {
+      label: (
+        <a
+          onClick={() => {
             onClick("");
           }}
         >
           返回首页
         </a>
       ),
-      key: "5",
+      key: "6",
     },
   ];
 
