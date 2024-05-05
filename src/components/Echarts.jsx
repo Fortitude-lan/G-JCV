@@ -4,7 +4,7 @@
  * @Author: wanghexing
  * @Date: 2024-03-24 16:54:46
  * @LastEditors: wanghexing
- * @LastEditTime: 2024-05-05 18:39:21
+ * @LastEditTime: 2024-05-05 22:19:48
  */
 import React, { useEffect, useRef, useState } from "react";
 // 引入 echarts 核心模块，核心模块提供了 echarts 使用必须要的接口。
@@ -83,7 +83,7 @@ export default function Echart(props) {
       if (auto) {
         initialScroll(option, chart);
       }
-    }, 20);
+    }, 500);
   }, []);
   /**
    * option 发生改变

@@ -376,9 +376,7 @@ export default function HomePage() {
   };
 
   useEffect(() => {
-    setTimeout(() => {
-      getCYOption();
-    }, 1000);
+    getCYOption();
   }, []);
 
   const getCYOption = () => {
